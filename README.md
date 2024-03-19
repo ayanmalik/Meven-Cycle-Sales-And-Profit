@@ -109,19 +109,18 @@ thus since by using this dashboard they have identified their Bussiness, they ca
 Didn't use any calculated Column so that Model size should not be Increase.
 
         
-- Step 22 : New measure was created to calculate To 
+- Step 22 : New measure was created to calculate To Total Revenue
 
 Following DAX expression was written for the same,
         
-        Total Revenue = 
-SUMX(
-    'Maven Cycles Sales',
-    'Maven Cycles Sales'[Quantity Sold] *
-    RELATED(
-        'Maven Cycle Products'[Unit Price]
+    Total Revenue = 
+    SUMX(
+        'Maven Cycles Sales',
+        'Maven Cycles Sales'[Quantity Sold] *
+        RELATED(
+                'Maven Cycle Products'[Unit Price]
+        )
     )
-)
-        
 A KPI visual was used to represent Total Revenue.
 
 ![Revenue](https://github.com/ayanmalik/Maven-Sales-and-Revenue/assets/15996271/690fe6ae-cee5-4d13-810f-9681817bd282)
@@ -129,13 +128,11 @@ A KPI visual was used to represent Total Revenue.
         
  - Step 23 : New measure was created to find  % of Profit
  
- Following DAX expression was written to find % of customers,
- 
-        % of Profit = 
-DIVIDE(
-    [Profit],
-    [All Profit]
-)
+         DIVIDE(
+                 [Profit],
+                [All Profit]
+                )
+
  
  A KPI visual was used to represent this perecntage.
  
@@ -147,12 +144,13 @@ DIVIDE(
  
  Following DAX expression was written to find Profit Margin.
 
-Profit Margin = 
-DIVIDE(
-    [Total Revenue]-[Total Cost],
-    [Total Revenue],
-    "N/A"
-)
+        Profit Margin = 
+        DIVIDE(
+             [Total Revenue]-[Total Cost],
+            [Total Revenue],
+             "N/A"
+         )
+ 
 
  A Table visual was used to represent this total Profit Maring.
  
@@ -162,101 +160,97 @@ DIVIDE(
  - Step 25 : New measure was created to calculate Last Month Profit.
 
 
-Last Month Profit = 
-CALCULATE(
-    [Profit],
-    DATEADD(
-        'Maven Cycles Calendar'[Date],
-        -1,
-        MONTH
-    )
-)
+        Last Month Profit = 
+         CALCULATE(
+                [Profit],
+                DATEADD(
+                    'Maven Cycles Calendar'[Date],
+                    -1,
+                    MONTH
+                )
+            )
 
 
  - Step 26 : New measure was created to calculate total Last Month Profit Margin.
 
-
-CALCULATE(
-    [Profit Margin],
-    DATEADD(
-        'Maven Cycles Calendar'[Date],
-        -1,
-        MONTH
-    )
-)
+        Last Month Profit Margin = 
+                    CALCULATE(
+                            [Profit Margin],
+                        DATEADD(
+                            'Maven Cycles Calendar'[Date],
+                            -1,
+                            MONTH
+                        )
+                    )
 
  - Step 27 : New measure was created to calculate Last Month Revenue.
 
-Last Month Revenue = 
-CALCULATE(
-    [Total Revenue],
-    DATEADD(
-        'Maven Cycles Calendar'[Date],
-        -1,
-        MONTH
-    )
-)
+        Last Month Revenue = 
+                    CALCULATE(
+                            [Total Revenue],
+                        DATEADD(
+                            'Maven Cycles Calendar'[Date],
+                            -1,
+                            MONTH
+                            )
+                        )
 
  - Step 28 : New measure was created to calculate Mid Range Revenue
 
-Mid Range Revenue = 
-SUMX(
-    FILTER(
-        'Maven Cycle Products',
-        'Maven Cycle Products'[Price Range]= "Mid"
-    ),
-    [Total Revenue]
-)
-
+        Mid Range Revenue = 
+                    SUMX(
+                        FILTER(
+                            'Maven Cycle Products',
+                            'Maven Cycle Products'[Price Range]= "Mid"
+                            ),
+                            [Total Revenue]
+                    )
 
  - Step 29 : New measure was created to calculate Quantity Sold (Stock Date).
 
-Quantity Sold (Stock Date) = 
-CALCULATE(
-    [Quantity Sold],
-    USERELATIONSHIP(
-        'Maven Cycles Sales'[Stock Date],
-        'Maven Cycles Calendar'[Date]
-    )
-)
+        Quantity Sold (Stock Date) = 
+                        CALCULATE(
+                                [Quantity Sold],
+                            USERELATIONSHIP(
+                                'Maven Cycles Sales'[Stock Date],
+                                'Maven Cycles Calendar'[Date]
+                            )
+                        )
 
 
 
  - Step 30 : New measure was created to calculate Quantity Sold YTD.
 
-Quantity Sold YTD = 
-TOTALYTD(
-    SUM('Maven Cycles Sales'[Quantity Sold]),
-    'Maven Cycles Calendar'[Date]
-)
+        Quantity Sold YTD = 
+                 TOTALYTD(
+                        SUM(
+                            'Maven Cycles Sales'[Quantity Sold]
+                            ),
+                            'Maven Cycles Calendar'[Date]
+                        )
 
  - Step 31 : New measure was created to calculate Total Cost.
 
-Total Cost = 
-SUMX(
-    'Maven Cycles Sales',
-    'Maven Cycles Sales'[Quantity Sold] *
-    RELATED(
-        'Maven Cycle Products'[Unit Cost]
-    )
-)
+            Total Cost = 
+                  SUMX(
+                    'Maven Cycles Sales',
+                    'Maven Cycles Sales'[Quantity Sold] *
+                  RELATED(
+                      'Maven Cycle Products'[Unit Cost]
+                    )
+                )
 
 
  - Step 32 : New measure was created to calculate All Profit.
 
 
-All Profit = 
-CALCULATE(
-    [Profit],
-    ALL(
-        'Maven Cycles Sales'
-    )
-)
-
-
-
-
-
+        All Profit = 
+            CALCULATE(
+                    [Profit],
+                 ALL(
+                 'Maven Cycles Sales'
+                 )
+             )
  - Step 33 : The report was then published to Power BI Service.
 
 # Snapshot of Dashboard (Power BI Service)
@@ -273,11 +267,14 @@ A Multiple page report was created on Power BI Desktop & it was then published t
 
 
  
- 					### [***] Some other insights By Time Intellingence
+### Some other insights By Time Intellingence
 
 
 
-### [1] Total Revenue = $251538599.
+### [1] Summary
+
+
+    Total Revenue = $251538599.
 
 	Total Cost   = $126123609.27
   
@@ -288,24 +285,23 @@ A Multiple page report was created on Power BI Desktop & it was then published t
 
 ### [2] Profit And Revenue By  Category.
 
-![BY Category](https://github.com/ayanmalik/Maven-Cycles-Sale-And-Revenue-Project/assets/15996271/7ae9940c-e0a8-4eb1-97fb-c3acf5c012a1)
+![BY Category](https://github.com/ayanmalik/Meven-Cycle-Sales-And-Profit/assets/15996271/2ca55a7f-f690-4964-b948-39714bb17c82)
 
 
 ### [3] Top 10 Sold Products.
 
-![Top 10 Prod](https://github.com/ayanmalik/Maven-Cycles-Sale-And-Revenue-Project/assets/15996271/56b65ef4-d8d8-4648-b385-0fedca790400)
+![Top 10 Prod](https://github.com/ayanmalik/Meven-Cycle-Sales-And-Profit/assets/15996271/fab7fe8c-7fc8-402c-ab38-3a8e0f603263)
 
 ### [4] Insights By Conutry.
 
 
-![IN By Country](https://github.com/ayanmalik/Maven-Cycles-Sale-And-Revenue-Project/assets/15996271/20e0d98a-5790-4c29-9027-054480f12d7d)
+![IN By Country](https://github.com/ayanmalik/Meven-Cycle-Sales-And-Profit/assets/15996271/bb13a955-28f5-4ba4-9354-a87a5ad1ccf5)
 
 ### [5] Last Months Insights.
 
+![Last Month's Insights](https://github.com/ayanmalik/Meven-Cycle-Sales-And-Profit/assets/15996271/8f372142-ea1b-4eb8-b433-2ccdb29deee1)
 
-![Last Month's Insights](https://github.com/ayanmalik/Maven-Cycles-Sale-And-Revenue-Project/assets/15996271/675bc99f-d433-4d1c-b387-da0d4a83dafa)
-
-
+    
     
 
  
